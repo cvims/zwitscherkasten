@@ -1,0 +1,13 @@
+torch>=1.13.0
+torchaudio>=0.13.0
+transformers>=4.30.0
+numpy>=1.23
+librosa>=0.9
+soundfile>=0.11
+scikit-learn>=1.1
+tqdm>=4.64
+pyyaml>=6.0
+hear21passt
+pandas
+matplotlib
+tensorboard
