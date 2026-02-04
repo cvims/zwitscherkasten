@@ -39,22 +39,16 @@ The application is built with a focus on performance and thread safety, utilizin
 
 1.  **Clone the Repository**
     ```bash
-    git clone [https://github.com/your-username/ZwitscherkastenApp.git](https://github.com/your-username/ZwitscherkastenApp.git)
-    cd ZwitscherkastenApp
+    git clone [https://github.com/your-username/zwitscherkasten.git](https://github.com/your-username/zwitscherkasten.git)
+    cd zwitscherkasten
     ```
 
-2.  **Add Machine Learning Models**
-    Due to file size limits, the CoreML models are not included in the source code. You must add the following files to your project target and ensure "Target Membership" is checked:
-    * `ZwitscherNet.mlmodel` / `.mlpackage` (Audio Classifier)
-    * `BirdIntent.mlmodel` / `.mlpackage` (Audio Gatekeeper)
-    * `VisualClassifier.mlmodel` / `.mlpackage` (Image Classifier)
-
-3.  **Verify Resources**
+2.  **Verify Resources**
     Ensure the following JSON filter banks are present in the "Copy Bundle Resources" phase:
     * `mel_filters.json` (For the primary classifier spectrograms)
     * `mel_filters_intent.json` (For the intent model spectrograms)
 
-4.  **Build and Run**
+3.  **Build and Run**
     Select your target device and run the application via Xcode.
 
 ## Project Structure
@@ -73,11 +67,3 @@ The application is built with a focus on performance and thread safety, utilizin
 * **Views/**: SwiftUI interface components.
     * `AudioScannerView.swift`: Real-time visualization and control.
     * `VisualScannerView.swift`: Camera and library image handling with live result feedback.
-
-## Privacy Policy
-
-ZwitscherkastenApp processes all audio and visual data locally on the device (On-Device Inference). No audio recordings, images, or location data are transmitted to external servers.
-
-## License
-
-This project is open source and available under the MIT License. See the LICENSE file for more details.
