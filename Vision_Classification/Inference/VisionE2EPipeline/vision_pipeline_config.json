@@ -1,0 +1,10 @@
+{
+  "det_imgsz": 640,
+  "det_min_conf": 0.1,
+  "max_det": 15,
+  "nms_iou": 0.45,
+
+  "cls_min_prob": 0.20,
+  "beta": 1.0,
+  "winner_policy": "sum"
+}
