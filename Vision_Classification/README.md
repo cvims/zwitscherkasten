@@ -22,6 +22,8 @@
   - `download_inat_images.py` — Download iNaturalist images for bird species classification.
   - `data_split.py` — Performs 60/20/20 stratified split per species on cropped images from prepare_crops_with_yolov11.py.
   - `metadata.csv` — resulting metadata from download
+  - `prepare_yolo_dataset.py` — preparing dataset for End-to-End YOLO training
+
 
 - `Training/` — training code and dataset preparation per model family.
   - `Yolo26s_253classes/`, `Yolo26n_253classes/`, `Yolo26m_253classes/`
