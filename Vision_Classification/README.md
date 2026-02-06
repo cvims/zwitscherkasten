@@ -42,7 +42,7 @@
 
 ---
 
-## 🧰 Training end-to-end pipeline (multi-class object detection)
+## Training end-to-end pipeline (multi-class object detection)
 
 1. Prepare data:
 

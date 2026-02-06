@@ -1,169 +1,90 @@
-# 🐦 Zwitscherkasten
+# 🐦 Zwitscherkasten — Audio Intent (Audio_Intent)
 
-**Real-time bird sound recognition for edge devices**
+This folder contains tools and a reference SampleApp for audio-based bird intent detection and species classification.
 
-Zwitscherkasten is a lightweight, multimodal bird monitoring system that performs audio-based species recognition on low-power edge hardware such as Raspberry Pi. It uses a two-stage ML pipeline for efficient detection and classification of 256 European bird species.
+Summary of what changed: the web/demo application and model files are now located in the `SampleApp/` subfolder. Top-level scripts such as `preprocess_data.py` and `train_model.py` are the utilities used for data preparation and model training.
 
-![Zwitscherkasten Demo](monitoring.png)
+## Layout (current)
 
-## ✨ Features
+Audio_Intent/
+- SampleApp/
+    - `app.py`                # Reference Flask app + live monitoring UI
+    - `bird_intent_model.tflite`  # TFLite intent model (provided)
+    - `model_audio.onnx`      # ONNX classification model (provided)
+    - `generate_cert.py`      # Helper to create `cert.pem` / `key.pem` for HTTPS
+    - `model_audio.onnx.data` # auxiliary model weight/data if present
+- `labels.json`             # Species label map (256 classes)
+- `preprocess_data.py`      # Convert raw audio → mel-spectrograms used for training
+- `train_model.py`          # Training script for intent/classifier models
+- `requirements.txt`       # Python dependencies for the Audio_Intent tools
 
-- **Two-Stage Detection Pipeline**: Intent model (is it a bird?) → Classification model (which species?)
-- **Real-time Monitoring**: Continuous audio analysis via microphone
-- **Web Interface**: Live dashboard accessible from any device on your network
-- **Edge-Optimized**: TFLite + ONNX models designed for Raspberry Pi performance
-- **256 Species**: Covers most European bird species with scientific naming
-- **HTTPS Support**: Secure access from mobile devices
+## Quick start (run the sample app)
 
-## 🏗️ Architecture
-
-```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────────┐
-│   Microphone    │────▶│  Intent Model    │────▶│ Classification Model│
-│   (3s chunks)   │     │  (TFLite, 12KB)  │     │   (ONNX, 6.6MB)     │
-└─────────────────┘     │  Bird? Yes/No    │     │   256 species       │
-                        └──────────────────┘     └─────────────────────┘
-                                                           │
-                                                           ▼
-                                                  ┌─────────────────┐
-                                                  │   Flask Web UI  │
-                                                  │   Live Results  │
-                                                  └─────────────────┘
-```
-
-The intent model acts as a lightweight gate, preventing unnecessary classification inference when no bird sounds are detected.
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8+
-- Working microphone
-- ~100MB RAM
-
-### Installation
+1. From repository root, install dependencies:
 
 ```bash
-git clone https://github.com/cvims/zwitscherkasten.git
-cd zwitscherkasten
+cd Audio_Intent
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Run
+2. Run the SampleApp (models are shipped in `SampleApp/`):
 
 ```bash
-# Standard start
+cd SampleApp
 python app.py
-
-# Auto-start monitoring
-python app.py --autostart
-
-# Enable HTTPS (required for mobile access)
-python app.py --https
 ```
 
-Open `http://localhost:5000` in your browser.
-
-## 📱 Mobile Access
-
-For iPhone/Android access over your local network:
+3. Optional flags (see `SampleApp/app.py`):
 
 ```bash
-# Generate SSL certificates (first time only)
-python generate_cert.py
-
-# Start with HTTPS
-python app.py --https
+python app.py --autostart   # start monitoring automatically
+python app.py --https       # use HTTPS (requires cert.pem/key.pem)
 ```
 
-Then access via `https://<your-ip>:5000`
-
-## 🧠 Models
-
-| Model | Format | Size | Purpose |
-|-------|--------|------|---------|
-| `bird_intent_model.tflite` | TensorFlow Lite | 12 KB | Binary bird detection |
-| `model_audio.onnx` | ONNX | 6.6 MB | Species classification (256 classes) |
-
-### Audio Processing
-
-- **Sample Rate**: 16 kHz
-- **Chunk Duration**: 3 seconds
-- **Features**: Mel spectrograms (64/128 bands)
-
-## 📡 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Web interface |
-| `/api/status` | GET | Current detection status |
-| `/api/history` | GET | Detection history |
-| `/api/start` | POST | Start monitoring |
-| `/api/stop` | POST | Stop monitoring |
-| `/api/clear` | POST | Clear history |
-| `/api/health` | GET | System health check |
-
-## 🛠️ Configuration
-
-Environment variables:
+Notes:
+- `app.py` expects `models/` by default (environment variables `INTENT_MODEL` and `CLASSIFICATION_MODEL` can override paths). Place `bird_intent_model.tflite` and `model_audio.onnx` into a `SampleApp/models/` directory or set environment variables before launching.
+- For local quick testing you can also run with the models present directly in `SampleApp/` and set `INTENT_MODEL` and `CLASSIFICATION_MODEL` accordingly:
 
 ```bash
-INTENT_MODEL=models/bird_intent_model.tflite
-CLASSIFICATION_MODEL=models/model_audio.onnx
+export INTENT_MODEL=./SampleApp/bird_intent_model.tflite
+export CLASSIFICATION_MODEL=./SampleApp/model_audio.onnx
+python SampleApp/app.py
 ```
 
-Parameters in `app.py`:
+## Configuration (reference values used by `SampleApp/app.py`)
 
-```python
-SAMPLE_RATE = 16000        # Audio sample rate
-CHUNK_DURATION = 3         # Seconds per analysis
-ANALYSIS_INTERVAL = 2      # Seconds between analyses
-HISTORY_MAX_SIZE = 100     # Max history entries
-```
+- `SAMPLE_RATE = 16000`
+- `CHUNK_DURATION = 3` (seconds)
+- `ANALYSIS_INTERVAL = 2` (seconds between analyses)
+- `HISTORY_MAX_SIZE = 100`
 
-## 🐧 Raspberry Pi Deployment
+## API Endpoints (provided by `SampleApp/app.py`)
 
-```bash
-# Install system dependencies
-sudo apt-get install libportaudio2 libsndfile1
+- `/` — GET: Web UI (templates under `SampleApp/templates/` if present)
+- `/api/status` — GET: current monitoring status and last result
+- `/api/history` — GET: detection history
+- `/api/start` — POST: start monitoring
+- `/api/stop` — POST: stop monitoring
+- `/api/clear` — POST: clear history
+- `/api/health` — GET: health and model status
 
-# Install Python packages
-pip install -r requirements.txt
+## Data preparation & training
 
-# Run on startup (optional)
-# Add to /etc/rc.local:
-# python /home/pi/zwitscherkasten/app.py --autostart &
-```
+- Use `preprocess_data.py` to convert raw audio files into mel-spectrogram inputs compatible with the intent and classification models.
+- Use `train_model.py` to train or fine-tune models; consult the script headers for training parameters.
 
-## 📦 Project Structure
+## Notes for deployment
 
-```
-zwitscherkasten/
-├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── generate_cert.py       # SSL certificate generator
-├── templates/
-│   └── index.html         # Web interface
-└── models/
-    ├── bird_intent_model.tflite   # Intent detection
-    ├── model_audio.onnx           # Species classification
-    ├── model_audio.onnx.data      # ONNX weights
-    └── labels.json                # 256 species labels
-```
+- For Raspberry Pi / edge deployment prefer `tflite-runtime` for the intent model and a lightweight ONNX runtime for classification.
+- If you need HTTPS for mobile access, run `SampleApp/generate_cert.py` (or provide your own certs) and start with `--https`.
 
-## 🎓 Academic Context
+## Next steps
 
-This project was developed as part of the Applied AI curriculum at Technische Hochschule Ingolstadt (THI) - Project AKI 2025.
-
-## 👥 Contributors
-
-- Florian Schulenberg ([@SirVectrex](https://github.com/SirVectrex))
-- Fabian Jirges ([@MasterCodeMan96](https://github.com/MasterCodeMan96))
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
+- I can:
+    - Move the provided models into a `SampleApp/models/` subfolder and set defaults in `app.py`.
+    - Generate a minimal `SampleApp/.env` or startup script that sets `INTENT_MODEL` / `CLASSIFICATION_MODEL`.
 
 ---
-
-*Made with 🎵 for the birds*
+If you want, I will apply one of the next steps above (create `SampleApp/models/` and update `app.py` defaults, or add a `.env` / run script). 

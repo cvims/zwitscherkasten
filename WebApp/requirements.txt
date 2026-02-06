@@ -1,0 +1,9 @@
+# Core dependencies for the WebApp
+flask
+flask-socketio
+python-socketio
+numpy
+sounddevice
+soundfile
+onnxruntime
+eventlet

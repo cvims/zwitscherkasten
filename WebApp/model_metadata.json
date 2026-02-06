@@ -1,0 +1,14 @@
+{
+  "model_name": "EfficientNetB0Audio",
+  "num_classes": 256,
+  "input_shape": [
+    1,
+    1,
+    128,
+    1024
+  ],
+  "backbone": "efficientnet_b0 (timm)",
+  "total_params": 6630876,
+  "input_description": "Mel spectrogram (batch, 1ch, 128x1024)",
+  "export_date": "2026-01-20T03:56:38.834147"
+}
