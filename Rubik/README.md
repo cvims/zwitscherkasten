@@ -16,6 +16,9 @@ Rubik/
 ├── Yolov8s Zwitscherkasten files - 253 bird species/
 │   ├── yolov8.labels253.json
 │   └── yolov8_full_interger_quant.tflite
-│   ├── Gstreamer pipeline
-└── models/
+│   ├── yolov8s_253birdclasses_gst.pipeline
+├── Winsocet files/
+│   └── README.md
+└── Misc/
     └── README.md
+    └── tflite-readout_quant_params.py
