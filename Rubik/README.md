@@ -8,6 +8,7 @@ Rubik/
 │   └── streaming.html
 ├── GStreamer plugin/
 │   └── README.md
+│   └── gstbboxwhscale.c
 ├── Yolov8n demo files - 80 classes coco example/
 │   ├── yolov8.labels
 │   ├── yolov8_det_quantized.tflite
