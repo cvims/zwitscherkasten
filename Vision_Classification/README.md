@@ -21,7 +21,7 @@
   - `prepre_crops_with_yolov11.py` — Extract bird crops from downloaded images using YOLOv11.
   - `download_inat_images.py` — Download iNaturalist images for bird species classification.
   - `data_split.py` — Performs 60/20/20 stratified split per species on cropped images from prepare_crops_with_yolov11.py.
-  - `metadata.csv` — resulting metadata from download
+  - `metadata.csv` — metadata for download
   - `prepare_yolo_dataset.py` — preparing dataset for End-to-End YOLO training
 
 
@@ -41,13 +41,17 @@
 
 
 ---
+## Downloading the Data from iNaturalist
 
+```bash
+python DataProcessing/download_inat_images.py
+```
 ## Training end-to-end pipeline (multi-class object detection)
 
 1. Prepare data:
 
 ```bash
-python DataProcessing/prepre_crops_with_yolov11.py
+python DataProcessing/prepare_yolo_dataset.py
 ```
 
 2. Train a model (Yolo):
@@ -56,3 +60,25 @@ python DataProcessing/prepre_crops_with_yolov11.py
 python Training/Yolo26n_253classes/Train_Bird_Classification_Yolo26n.py
 ```
 
+## Training two-staged classification pipeline
+
+1. Prepare data:
+   
+```bash
+python DataProcessing/prepre_crops_with_yolov11.py
+```
+```bash
+python DataProcessing/data_split.py
+```
+
+2. Train a model (e.g. EfficientNet-B1):
+
+```bash
+python Training/Species_classifier/train_species_classifier.py --model effnet_b1
+```
+
+3. Inference on Testset:
+
+```bash
+python Training/Species_classifier/run_testset.py --model-dir runs-cls/effnet_b1{Timestamp}
+```
