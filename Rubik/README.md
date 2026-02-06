@@ -17,7 +17,7 @@ Rubik/
 │   ├── yolov8.labels253.json
 │   └── yolov8_full_interger_quant.tflite
 │   ├── yolov8s_253birdclasses_gst.pipeline
-├── Winsocet files/
+├── WebSocket files/
 │   ├── det_parse_ws.py
 │   └── README.md
 └── Misc/
