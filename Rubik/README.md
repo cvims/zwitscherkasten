@@ -18,6 +18,7 @@ Rubik/
 │   └── yolov8_full_interger_quant.tflite
 │   ├── yolov8s_253birdclasses_gst.pipeline
 ├── Winsocet files/
+│   ├── det_parse_ws.py
 │   └── README.md
 └── Misc/
     └── README.md
