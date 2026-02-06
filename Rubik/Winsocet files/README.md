@@ -1,1 +1,1 @@
-## Additional helper-script to generate WS window in Janus WebRTC Homepage
+## Additional helper-script to generate WebSocket window in Janus WebRTC Homepage
