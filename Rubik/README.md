@@ -12,7 +12,7 @@ Rubik/
 ├── Yolov8n demo files - 80 classes coco example/
 │   ├── yolov8.labels
 │   ├── yolov8_det_quantized.tflite
-│   ├── GStreamer pipeline
+│   ├── yolov8n_demo_gst.pipeline
 ├── Yolov8s Zwitscherkasten files - 253 bird species/
 │   ├── yolov8.labels253.json
 │   └── yolov8_full_interger_quant.tflite
