@@ -1,8 +1,11 @@
-# 🐦 Zwitscherkasten
+<p align="center">
+  <samp>𝗭𝗪𝗜𝗧𝗦𝗖𝗛𝗘𝗥𝗞𝗔𝗦𝗧𝗘𝗡</samp><br><br>
+  <img src="monitoring.png" alt="Zwitscherkasten logo" width="500"/><br><br>
+  <b>A multimodal bird monitoring system combining audio & vision intelligence for edge deployment</b><br><br>
+  📄 <i>Find our paper on arXiv <a href="https://arxiv.org/abs/2602.13330">here</a></i> • 
+  💾 <i>Pre-trained models on <a href="https://zenodo.org/records/18499119">Zenodo</a></i>
+</p>
 
-<p align="center"><img src="monitoring.png" alt="Zwitscherkasten logo" width="300"/></p>
-
-**A multimodal bird monitoring system** combining audio and vision intelligence for edge deployment.
 
 ---
 
@@ -31,6 +34,19 @@
 └── Rubik/                     Edge device integration & streaming
 ```
 
+## Citation
+If you use Zwitscherkasten in your research or project, please cite our paper:
+```
+@misc{blum2026zwitscherkastendiyaudiovisual,
+      title={Zwitscherkasten -- DIY Audiovisual bird monitoring}, 
+      author={Dominik Blum and Elias Häring and Fabian Jirges and Martin Schäffer and David Schick and Florian Schulenberg and Torsten Schön},
+      year={2026},
+      eprint={2602.13330},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2602.13330}, 
+}
+```
 
 
 
